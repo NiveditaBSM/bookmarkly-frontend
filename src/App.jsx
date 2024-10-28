@@ -154,7 +154,10 @@ const App = () => {
         onErrClose={closeErrorMessage} onSuccClose={closeSuccessMessage} />
       <main>
         {user === null ?
-          <LoginForm handleLogin={handleLogin} /> :
+        <Toggable>
+          <LoginForm handleLogin={handleLogin} />
+        </Toggable>
+           :
           <BlogSection />
           // <div>
 

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { useState } from "react";
 
-const Toggable = (props) => {
+const ToggableRegister = (props) => {
 
     const [visibility, setVisibility] = useState(true)
 
@@ -29,4 +29,4 @@ Toggable.propTypes = {
     buttonLabel: PropTypes.string.isRequired
 }
 
-export default Toggable
+export default ToggableRegister
