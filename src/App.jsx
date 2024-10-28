@@ -3,6 +3,8 @@ import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Toggable from './components/Togglable'
 import CreateBlog from './components/CreateBlog'
+import LoginForm from './components/LoginForm'
+import BlogSection from './components/BlogSection'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import './index.css'
@@ -38,8 +40,8 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
+  const handleLogin = async ({ username, password }) => {
+
     try {
       const loggedInUser = await loginService.login({ username, password })
 
@@ -152,25 +154,27 @@ const App = () => {
         onErrClose={closeErrorMessage} onSuccClose={closeSuccessMessage} />
       <main>
         {user === null ?
-          loginForm() :
-          <div>
-            <h2>blogs</h2>
-            <p> {user.name} logged in <br />
-              <a href='#' onClick={handleLogout}> (logout) </a>
-            </p>
+          <LoginForm handleLogin={handleLogin} /> :
+          <BlogSection />
+          // <div>
+
+          //   <h2>blogs</h2>
+          //   <p> {user.name} logged in <br />
+          //     <a href='#' onClick={handleLogout}> (logout) </a>
+          //   </p>
 
 
-            <Toggable buttonLabel='Create new Blog'>
-              <CreateBlog onBlogCreation={handleBlogAddition} />
-            </Toggable>
+          //   <Toggable buttonLabel='Create new Blog'>
+          //     <CreateBlog onBlogCreation={handleBlogAddition} />
+          //   </Toggable>
 
-            <div>
-              {blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} onAddLike={handleAddLike} userRef={userRef}
-                  onRemoveBlog={handleRemoveBlog} />
-              )}
-            </div>
-          </div>
+          //   <div>
+          //     {blogs.map(blog =>
+          //       <Blog key={blog.id} blog={blog} onAddLike={handleAddLike} userRef={userRef}
+          //         onRemoveBlog={handleRemoveBlog} />
+          //     )}
+          //   </div>
+          // </div>
         }
       </main>
     </div>
