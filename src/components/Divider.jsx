@@ -5,10 +5,11 @@ const Divider = () => {
 
 const styles = {
     divider: {
-        height: '2px',        // Gives thickness to the divider
+        height: '0.050rem',        // Gives thickness to the divider
         backgroundColor: '#ccc',  // Sets the color of the divider
-        margin: '20px 0',     // Adds spacing around the divider
-        border: 'none',       // Removes any default border styling
+        marginBottom: '10px',     // Adds spacing around the divider
+        //paddingBottom: '10px',
+        //border: 'none',       // Removes any default border styling
         width: '80%'
     },
 };

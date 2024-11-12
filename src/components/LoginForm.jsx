@@ -1,50 +1,106 @@
-import { useState } from "react";
+import { useState, useEffect } from "react"
+import {
+    Link,
+    Navigate,
+    useNavigate
+} from 'react-router-dom'
+import Notification from "./Notification"
+import loginService from '../services/login'
+import blogService from '../services/blogs'
+import { useOnlineStatus } from "../hooks/hooks"
 
-const LoginForm = ({ handleLogin }) => {
+const LoginForm = () => {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
+    const [user, setUser] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
+    //const [successMessage, setSuccessMessage] = useState(null)
+    const [loading, setLoading] = useState(true)
 
-    const onLogin = async (event) => {
+    const navigate = useNavigate()
+    const onlineStatus = useOnlineStatus()
+
+    useEffect(() => {
+        const loggedInUserJSON = window.localStorage.getItem('loggedInUser');
+        if (loggedInUserJSON) {
+            const loggedInUser = JSON.parse(loggedInUserJSON);
+            setUser(loggedInUser);
+            blogService.setToken(loggedInUser.token);
+        }
+        setLoading(false);
+    }, []);
+
+    const handleLogin = async (event) => {
         event.preventDefault()
-
         try {
-            await handleLogin({ username, password })
+            const loggedInUser = await loginService.login({ username, password })
+
+            setUser(loggedInUser)
+            blogService.setToken(loggedInUser.token)
+            const loggedInUserJSON = JSON.stringify(loggedInUser)
+            window.localStorage.setItem('loggedInUser', loggedInUserJSON)
+
             setUsername('')
             setPassword('')
+
+            navigate('/')
+
         } catch (exception) {
-            console.log(exception)
+            setErrorMessage('login failed! please provide valid credentials')
+            setTimeout(() => setErrorMessage(null), 5000)
         }
     }
 
+    if (loading) {
+        return <div>Loading...</div>; // Display a loading message while checking user
+    }
+
+    if (user) {
+        return <Navigate replace to="/" />;  // Redirect if user is logged in
+    }
+
     return (
-        <div style={styles.loginContainer}>
-            <div style={styles.loginBox}>
-                <h1 style={styles.heading}>Log in to your account</h1>
-                <form style={styles.form} onSubmit={onLogin}>
-                    <label htmlFor='email' style={styles.label}>Username</label>
-                    <input type='username' id='username' placeholder='Username'
-                        value={username} onChange={({ target }) => setUsername(target.value)}
-                        required style={styles.input} />
-                    <label htmlFor='email' style={styles.label}>Password</label>
-                    <input type='password' id='password' placeholder='Password'
-                        value={password} onChange={({ target }) => setPassword(target.value)}
-                        required style={styles.input} />
-                    <button type='submit' style={styles.button}>Login</button>
-                </form>
-                <div style={styles.registerSection}>
-                    <span>Don’t have an account? </span>
-                    <a href="#" style={styles.registerLink}>Register here</a>
+        <>
+            <Notification errorMessage={errorMessage} successMessage={null} onErrClose={() => setErrorMessage(null)} onSuccClose={null} />
+            <div style={styles.loginContainer}>
+                <div style={styles.loginBox}>
+                    <h1 style={styles.heading}>Log in to your account</h1>
+
+                    <form style={styles.form} onSubmit={handleLogin}>
+
+                        <label htmlFor='email' style={styles.label}>Username</label>
+                        <input type='username' id='username' placeholder='Username'
+                            value={username} onChange={({ target }) => setUsername(target.value)}
+                            required style={styles.input} />
+
+                        <label htmlFor='email' style={styles.label}>Password</label>
+                        <input type='password' id='password' placeholder='Password'
+                            value={password} onChange={({ target }) => setPassword(target.value)}
+                            required style={styles.input} />
+
+                        <button disabled={!onlineStatus} type='submit' style={styles.button}>Login</button>
+                        {(!onlineStatus && <div style={styles.statusText}> could not proceed with login, you are currently offline</div>)}
+
+                    </form>
+
+                    <div style={styles.registerSection}>
+                        <span>Don’t have an account? </span>
+                        <Link style={styles.registerLink} to='/register'>Register here</Link>
+                    </div>
+
                 </div>
-            </div>
-            <div style={styles.rightPanel}>
-                <h2 style={styles.rightHeading}>Keep all your favorite blogs in one place</h2>
-                <p style={styles.rightText}>
-                    Introducing Blog List.<br />
-                    Place all your favorite blogs in one place, create notes on these blogs and tag them for easy search.</p>
-                <a href='https://github.com/NiveditaBSM/save-blogs' target='_blank' rel='noopener noreferrer'
-                    style={styles.learnMore}>Learn more →</a>
-            </div>
-        </div>
+
+                <div style={styles.rightPanel}>
+                    <h2 style={styles.rightHeading}>Struggling to keep you favorite blogs and other links in one place?</h2>
+                    <p style={styles.rightText}>
+                        Introducing BlogList.<br />
+                        Place all your favorite blog links, websites, song lyrics or any other links of your choice in one place. Add description for quick review or add tags for easy search.</p>
+                    <a href='https://github.com/NiveditaBSM/save-blogs' target='_blank' rel='noopener noreferrer'
+                        style={styles.learnMore}>Learn more →</a>
+                </div>
+
+            </div >
+        </>
     );
 };
 
@@ -53,7 +109,7 @@ const styles = {
     loginContainer: {
         display: 'flex',
         height: '100vh',
-        width: '100vw',
+        width: '100%',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
         overflow: 'hidden',
         justifyContent: 'center',
@@ -62,9 +118,9 @@ const styles = {
         width: '50%',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'center', /* Centers horizontally */
+        justifyContent: 'center',
         height: '100vh',
-        padding: '40px',
+        padding: '0 40px',
         backgroundColor: '#ffffff',
 
     },
@@ -101,7 +157,7 @@ const styles = {
     },
     rightPanel: {
         width: '50%',
-        padding: '40px',
+        padding: '0 40px',
         backgroundColor: '#1f2d36',
         color: '#ffffff',
         display: 'flex',
@@ -132,6 +188,17 @@ const styles = {
     },
     registerLink: {
         color: '#4CAF50',
+        textDecoration: 'none',
+        marginLeft: '5px',
+        cursor: 'pointer',
+    },
+    statusText: {
+        //color: '#4CAF50',
+        marginTop: '0.2rem',
+        fontSize: '12px',
+        color: '#555',
+        display: 'flex',
+        justifyContent: 'center',
         textDecoration: 'none',
         marginLeft: '5px',
         cursor: 'pointer',

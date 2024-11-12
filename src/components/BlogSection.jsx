@@ -6,7 +6,30 @@ import SearchBar from './SearchBar';
 import FilterDropdown from './FilterDropdown';
 
 const BlogSection = () => {
-    const [blogs, setBlogs] = useState([]);
+    const tempBlogs = [
+        {
+            title: 'Why React uses call order?',
+            author: 'Dan Abramov',
+            url: 'https://overreacted.io/why-do-hooks-rely-on-call-order/',
+            notes: 'React uses call order for hooks, article explains why this approach and not other',
+            tags: 'React, Hooks',
+        },
+        {
+            title: 'This is second blog',
+            author: 'Dan Abramov',
+            url: 'https://overreacted.io/why-do-hooks-rely-on-call-order/',
+            notes: 'React uses call order for hooks, article explains why this approach and not other',
+            tags: 'React, Hooks',
+        },
+        {
+            title: 'Does this app makes sense?',
+            author: 'Dan Abramov',
+            url: 'https://overreacted.io/why-do-hooks-rely-on-call-order/',
+            notes: 'React uses call order for hooks, article explains why this approach and not other',
+            tags: 'React, Hooks',
+        }
+    ]
+    const [blogs, setBlogs] = useState(tempBlogs);
     const [formData, setFormData] = useState({
         title: '',
         author: '',
@@ -69,9 +92,9 @@ const BlogSection = () => {
     };
 
     return (
-        <div style={styles.container}>
+        <>
             <div style={styles.formContainer}>
-                <h2 style={styles.sectionHeading}>Add a New Blog</h2>
+                {/* <h2 style={styles.sectionHeading}>Add a New Blog</h2> */}
                 <form style={styles.blogForm} onSubmit={handleSubmit}>
                     <input
                         type="text"
@@ -102,7 +125,7 @@ const BlogSection = () => {
                     />
                     <textarea
                         name="notes"
-                        placeholder="Notes"
+                        placeholder="Description"
                         value={formData.notes}
                         onChange={handleChange}
                         style={styles.textarea}
@@ -116,18 +139,16 @@ const BlogSection = () => {
                         style={styles.input}
                     />
                     <button type="submit" style={styles.doneButton}>
-                        <FiCheck style={styles.icon} />
+                        <FiCheck title='save' style={styles.icon} />
                     </button>
                 </form>
             </div>
-
             <Divider />
-
 
             <div style={styles.filterContainer}>
                 <div style={styles.searchContainer}>
                     <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} style={styles.searchInput} />
-                </div>      
+                </div>
                 <FilterDropdown filterType="Created Date" selectedDate={createdDateFilter} handleDateChange={setCreatedDateFilter} />
                 <FilterDropdown filterType="Modified Date" selectedDate={modifiedDateFilter} handleDateChange={setModifiedDateFilter} />
 
@@ -137,7 +158,7 @@ const BlogSection = () => {
                 <BlogCardList blogs={filterBlogs(blogs)} />
             </div>
 
-        </div>
+        </>
     );
 };
 
@@ -147,7 +168,7 @@ const styles = {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: '20px',
+        padding: '0 20px',
         backgroundColor: '#1f2d36',
         color: '#ffffff',
         height: '100vh',
@@ -155,14 +176,16 @@ const styles = {
     formContainer: {
         width: '50%', // Form spans around 50% of the container's width
         marginBottom: '20px',
+        padding: '20px'
     },
     filterContainer: {
         width: '80%',
         marginBottom: '20px',
+        marginTop: '20px',
         display: 'flex',
         gap: '15px',
         alignItems: 'center',
-        //justifyContent: 'center'
+        justifyContent: 'center'
     },
     label: {
         padding: '10px',
@@ -187,8 +210,11 @@ const styles = {
         width: '80%', // BlogCardList spans around 80% of the container's width
     },
     sectionHeading: {
+        width: '80%',
         fontSize: '22px',
         marginBottom: '20px',
+        //justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     blogForm: {
         display: 'flex',
@@ -196,7 +222,7 @@ const styles = {
         gap: '15px',
         backgroundColor: '#f9f9f9',
         padding: '20px',
-        borderRadius: '8px',
+        borderRadius: '5px',
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
         position: 'relative',
     },
