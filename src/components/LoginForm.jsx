@@ -5,12 +5,12 @@ import {
     useNavigate
 } from 'react-router-dom'
 import Notification from "./Notification"
-import loginService from '../services/login'
+import userService from '../services/user'
 import blogService from '../services/blogs'
 import { useOnlineStatus } from "../hooks/hooks"
 
 const LoginForm = () => {
-    const [username, setUsername] = useState('')
+    const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
     const [errorMessage, setErrorMessage] = useState(null)
@@ -33,14 +33,14 @@ const LoginForm = () => {
     const handleLogin = async (event) => {
         event.preventDefault()
         try {
-            const loggedInUser = await loginService.login({ username, password })
+            const loggedInUser = await userService.login({ email, password })
 
             setUser(loggedInUser)
             blogService.setToken(loggedInUser.token)
             const loggedInUserJSON = JSON.stringify(loggedInUser)
             window.localStorage.setItem('loggedInUser', loggedInUserJSON)
 
-            setUsername('')
+            setEmail('')
             setPassword('')
 
             navigate('/')
@@ -68,9 +68,9 @@ const LoginForm = () => {
 
                     <form style={styles.form} onSubmit={handleLogin}>
 
-                        <label htmlFor='email' style={styles.label}>Username</label>
-                        <input type='username' id='username' placeholder='Username'
-                            value={username} onChange={({ target }) => setUsername(target.value)}
+                        <label htmlFor='email' style={styles.label}>Email</label>
+                        <input type='email' id='email' placeholder='Email ID'
+                            value={email} onChange={({ target }) => setEmail(target.value)}
                             required style={styles.input} />
 
                         <label htmlFor='email' style={styles.label}>Password</label>

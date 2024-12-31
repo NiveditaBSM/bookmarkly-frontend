@@ -4,38 +4,59 @@ import {
 } from 'react-router-dom';
 import { useOnlineStatus } from "../hooks/hooks";
 import Notification from "./Notification";
+import userService from '../services/user';
 
 const RegisterForm = () => {
     const [username, setUsername] = useState('')
-    const [name, setName] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
     const [message, setMessage] = useState(null)
+    const [errorMessage, setErrorMessage] = useState(null)
 
     const [loading, setLoading] = useState(true)
-
     const onlineStatus = useOnlineStatus()
 
     const closeMessage = () => {
         setMessage(null)
     }
 
+    const closeError = () => {
+        setErrorMessage(null)
+    }
+
     const onRegister = async (event) => {
         event.preventDefault()
-        setMessage('Verify your email through the link sent on registered email to login')
-        setTimeout(() => setMessage(null), 10000)
+        try {
+                const registrationResponse = await userService.register({ username, email, password })
+                if (registrationResponse.status === 'success'){
+                    setMessage(registrationResponse.message)
+                    setTimeout(() => setMessage(null), 10000)
+                    setEmail('')
+                    setPassword('')
+                    setUsername('')
+                }               
+                else {
+                    throw new Error('registration failed');
+                }
+        } catch (exception) {
+                setErrorMessage('Registration Failed! please try again')
+                setTimeout(() => setErrorMessage(null), 5000)
+        }
+        
     }
 
     return (
         <div style={styles.loginContainer}>
+            
             <div style={styles.loginBox}>
                 <h1 style={styles.heading}>Register here</h1>
                 <form style={styles.form} onSubmit={onRegister}>
 
-                    <label htmlFor='name' style={styles.label}>Your Name</label>
+                    {/* <label htmlFor='name' style={styles.label}>Your Name</label>
                     <input type='name' id='name' placeholder='Your Name'
                         value={name} onChange={({ target }) => setName(target.value)}
-                        required style={styles.input} />
+                        required style={styles.input} /> */}
 
                     <label htmlFor='username' style={styles.label}>Username</label>
                     <input type='username' id='username' placeholder='Username'
@@ -61,7 +82,7 @@ const RegisterForm = () => {
                     <Link to='/login' style={styles.registerLink}>Login here</Link>
                 </div>
                 <Notification successMessage={message} onSuccClose={closeMessage}
-                    errorMessage={null} onErrClose={null} />
+                    errorMessage={errorMessage} onErrClose={closeError} />
             </div>
             <div style={styles.rightPanel}>
                 <h2 style={styles.rightHeading}>Struggling to keep you favorite blogs and other links in one place?</h2>
