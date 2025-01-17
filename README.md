@@ -117,4 +117,4 @@ Contributions, issues, and feature requests are welcome! Feel free to fork the r
 If you have any questions or suggestions, feel free to reach out:
 
 - Email: <niveditamagdum2015@gmail.com>
-- GitHub: [Your GitHub Profile](https://github.com/NiveditaBSM)
+- GitHub: [My GitHub Profile](https://github.com/NiveditaBSM)
