@@ -2,8 +2,6 @@
 
 Bookmarkly is a full-stack web application designed to help users save, manage, and organize their favorite links efficiently. Whether it's articles, blogs, or any other resources, users can add them to their collection, categorize them with tags, and quickly retrieve them later using search and filter functionalities.
 
----
-
 ## Features
 
 ### **Core Features**
@@ -26,8 +24,6 @@ Bookmarkly is a full-stack web application designed to help users save, manage, 
 - **Interactive Interface:**
   - A clean, intuitive UI for a smooth user experience.
 
----
-
 ## Tech Stack
 
 ### **Frontend**
@@ -44,8 +40,6 @@ Bookmarkly is a full-stack web application designed to help users save, manage, 
 ### **Deployment**
 
 - **Vercel**: To host the frontend application.
-
----
 
 ## Getting Started
 
@@ -92,8 +86,6 @@ Follow these steps to set up the project locally:
    http://localhost:5173
    ```
 
----
-
 <!-- ## Folder Structure
 
 ```
@@ -116,13 +108,9 @@ bookmarkly-frontend/
 
 Check out the live application here: [Deployed Link](https://bookmarkly-frontend.vercel.app)
 
----
-
 ## Contributions
 
 Contributions, issues, and feature requests are welcome! Feel free to fork the repository and submit a pull request.
-
----
 
 ## Contact
 
