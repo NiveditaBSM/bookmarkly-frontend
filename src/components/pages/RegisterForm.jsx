@@ -2,9 +2,9 @@ import { useState } from "react";
 import {
     Link
 } from 'react-router-dom';
-import { useOnlineStatus } from "../hooks/hooks";
-import Notification from "./Notification";
-import userService from '../services/user';
+import { useOnlineStatus } from "../../hooks/hooks";
+import Notification from "../utility/Notification";
+import userService from '../../services/users';
 
 const RegisterForm = () => {
     const [username, setUsername] = useState('')
@@ -28,27 +28,29 @@ const RegisterForm = () => {
     const onRegister = async (event) => {
         event.preventDefault()
         try {
-                const registrationResponse = await userService.register({ username, email, password })
-                if (registrationResponse.status === 'success'){
-                    setMessage(registrationResponse.message)
-                    setTimeout(() => setMessage(null), 10000)
-                    setEmail('')
-                    setPassword('')
-                    setUsername('')
-                }               
-                else {
-                    throw new Error('registration failed');
-                }
-        } catch (exception) {
-                setErrorMessage('Registration Failed! please try again')
+            const registrationResponse = await userService.register({ username, email, password })
+            console.log('registrationResponse:', registrationResponse)
+            if (registrationResponse.status === 'success') {
+                setMessage(registrationResponse.message)
+                setTimeout(() => setMessage(null), 10000)
+                setEmail('')
+                setPassword('')
+                setUsername('')
+            }
+            else {
+                setErrorMessage(registrationResponse.message)
                 setTimeout(() => setErrorMessage(null), 5000)
+            }
+        } catch (exception) {
+            setErrorMessage('Registration Failed! please try again')
+            setTimeout(() => setErrorMessage(null), 5000)
         }
-        
+
     }
 
     return (
         <div style={styles.loginContainer}>
-            
+
             <div style={styles.loginBox}>
                 <h1 style={styles.heading}>Register here</h1>
                 <form style={styles.form} onSubmit={onRegister}>
@@ -87,7 +89,7 @@ const RegisterForm = () => {
             <div style={styles.rightPanel}>
                 <h2 style={styles.rightHeading}>Struggling to keep you favorite blogs and other links in one place?</h2>
                 <p style={styles.rightText}>
-                    Introducing BlogList.<br />
+                    Introducing Bookmarkly.<br />
                     Place all your favorite blog links, websites, song lyrics or any other links of your choice in one place. Add description for quick review or add tags for easy search.</p>
                 <a href='https://github.com/NiveditaBSM/save-blogs' target='_blank' rel='noopener noreferrer'
                     style={styles.learnMore}>Learn more →</a>
@@ -191,7 +193,6 @@ const styles = {
         color: '#555',
         display: 'flex',
         justifyContent: 'center',
-        color: '#555',
         textDecoration: 'none',
         marginLeft: '5px',
         cursor: 'pointer',

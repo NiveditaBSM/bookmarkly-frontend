@@ -1,4 +1,3 @@
-// FilterDropdown.js
 import React from 'react';
 
 const FilterDropdown = ({ filterType, selectedDate, handleDateChange }) => {

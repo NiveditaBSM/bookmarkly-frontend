@@ -1,45 +1,39 @@
 import { useState } from 'react';
 import { FiCheck } from 'react-icons/fi';
-import Divider from './Divider';
-import BlogCardList from './BlogCardList';
-import SearchBar from './SearchBar';
-import FilterDropdown from './FilterDropdown';
+import Divider from '../utility/Divider';
+import BlogCards from './BookmarkCards';
+import SearchBar from '../utility/SearchBar';
+import FilterDropdown from '../utility/Dropdown';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchBookmarks } from '../../features/bookmarkSlice';
 
 const BlogSection = () => {
-    const tempBlogs = [
-        {
-            title: 'Why React uses call order?',
-            author: 'Dan Abramov',
-            url: 'https://overreacted.io/why-do-hooks-rely-on-call-order/',
-            notes: 'React uses call order for hooks, article explains why this approach and not other',
-            tags: 'React, Hooks',
-        },
-        {
-            title: 'This is second blog',
-            author: 'Dan Abramov',
-            url: 'https://overreacted.io/why-do-hooks-rely-on-call-order/',
-            notes: 'React uses call order for hooks, article explains why this approach and not other',
-            tags: 'React, Hooks',
-        },
-        {
-            title: 'Does this app makes sense?',
-            author: 'Dan Abramov',
-            url: 'https://overreacted.io/why-do-hooks-rely-on-call-order/',
-            notes: 'React uses call order for hooks, article explains why this approach and not other',
-            tags: 'React, Hooks',
-        }
-    ]
-    const [blogs, setBlogs] = useState(tempBlogs);
+
+    // const [blogs, setBlogs] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
         author: '',
         url: '',
-        notes: '',
+        summary: '',
         tags: '',
     });
     const [searchTerm, setSearchTerm] = useState('');
     const [createdDateFilter, setCreatedDateFilter] = useState('');
     const [modifiedDateFilter, setModifiedDateFilter] = useState('');
+
+    const dispatch = useDispatch();
+    const bookmarks = useSelector((state) => state.bookmarks.data) ?? [];
+    const status = useSelector((state) => state.bookmarks.status);
+    const error = useSelector((state) => state.bookmarks.error);
+
+    useEffect(() => {
+        if (status === 'idle') {
+            dispatch(fetchBookmarks());
+        }
+    }, [dispatch, status]);
+
+    console.log('Data:', bookmarks);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -57,7 +51,7 @@ const BlogSection = () => {
             title: '',
             author: '',
             url: '',
-            notes: '',
+            summary: '',
             tags: '',
         });
     };
@@ -94,55 +88,23 @@ const BlogSection = () => {
     return (
         <>
             <div style={styles.formContainer}>
-                {/* <h2 style={styles.sectionHeading}>Add a New Blog</h2> */}
                 <form style={styles.blogForm} onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        name="title"
-                        placeholder="Blog Title"
-                        value={formData.title}
-                        onChange={handleChange}
-                        style={styles.input}
-                        required
-                    />
-                    <input
-                        type="text"
-                        name="author"
-                        placeholder="Author"
-                        value={formData.author}
-                        onChange={handleChange}
-                        style={styles.input}
-                        required
-                    />
-                    <input
-                        type="url"
-                        name="url"
-                        placeholder="URL"
-                        value={formData.url}
-                        onChange={handleChange}
-                        style={styles.input}
-                        required
-                    />
-                    <textarea
-                        name="notes"
-                        placeholder="Description"
-                        value={formData.notes}
-                        onChange={handleChange}
-                        style={styles.textarea}
-                    />
-                    <input
-                        type="text"
-                        name="tags"
-                        placeholder="Tags (comma-separated)"
-                        value={formData.tags}
-                        onChange={handleChange}
-                        style={styles.input}
-                    />
+                    <input type="text" name="title" placeholder="Blog Title"
+                        value={formData.title} onChange={handleChange} style={styles.input} required />
+                    <input type="text" name="author" placeholder="Author"
+                        value={formData.author} onChange={handleChange} style={styles.input} required />
+                    <input type="url" name="url" placeholder="URL"
+                        value={formData.url} onChange={handleChange} style={styles.input} required />
+                    <textarea name="notes" placeholder="Summary / Description"
+                        value={formData.notes} onChange={handleChange} style={styles.textarea} />
+                    <input type="text" name="tags" placeholder="Tags (comma-separated)"
+                        value={formData.tags} onChange={handleChange} style={styles.input} />
                     <button type="submit" style={styles.doneButton}>
                         <FiCheck title='save' style={styles.icon} />
                     </button>
                 </form>
             </div>
+
             <Divider />
 
             <div style={styles.filterContainer}>
@@ -155,7 +117,7 @@ const BlogSection = () => {
             </div>
 
             <div style={styles.cardsContainer}>
-                <BlogCardList blogs={filterBlogs(blogs)} />
+                <BlogCards blogs={filterBlogs(blogs)} />
             </div>
 
         </>
@@ -174,7 +136,7 @@ const styles = {
         height: '100vh',
     },
     formContainer: {
-        width: '50%', // Form spans around 50% of the container's width
+        width: '50%',
         marginBottom: '20px',
         padding: '20px'
     },
@@ -193,21 +155,21 @@ const styles = {
         fontSize: '14px',
     },
     searchContainer: {
-        flex: 1, // Make search bar take available space
+        flex: 1,
         width: '100%'
     },
     searchInput: {
-        width: '100%', // Make search bar take full width of the container
+        width: '100%',
         padding: '10px',
         fontSize: '14px',
         borderRadius: '5px',
         border: '1px solid #ddd',
     },
     dropdownContainer: {
-        width: '250px', // Fixed width for dropdowns to prevent overlap
+        width: '250px',
     },
     cardsContainer: {
-        width: '80%', // BlogCardList spans around 80% of the container's width
+        width: '80%',
     },
     sectionHeading: {
         width: '80%',

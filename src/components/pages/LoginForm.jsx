@@ -1,20 +1,15 @@
 import { useState, useEffect } from "react"
-import {
-    Link,
-    Navigate,
-    useNavigate
-} from 'react-router-dom'
-import Notification from "./Notification"
-import userService from '../services/user'
-import blogService from '../services/blogs'
-import { useOnlineStatus } from "../hooks/hooks"
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import Notification from "../utility/Notification"
+import userService from '../../services/users'
+import blogService from '../../services/bookmarks'
+import { useOnlineStatus } from "../../hooks/hooks"
 
 const LoginForm = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [user, setUser] = useState(null)
     const [errorMessage, setErrorMessage] = useState(null)
-    //const [successMessage, setSuccessMessage] = useState(null)
     const [loading, setLoading] = useState(true)
 
     const navigate = useNavigate()
@@ -93,7 +88,7 @@ const LoginForm = () => {
                 <div style={styles.rightPanel}>
                     <h2 style={styles.rightHeading}>Struggling to keep you favorite blogs and other links in one place?</h2>
                     <p style={styles.rightText}>
-                        Introducing BlogList.<br />
+                        Introducing Bookmarkly.<br />
                         Place all your favorite blog links, websites, song lyrics or any other links of your choice in one place. Add description for quick review or add tags for easy search.</p>
                     <a href='https://github.com/NiveditaBSM/save-blogs' target='_blank' rel='noopener noreferrer'
                         style={styles.learnMore}>Learn more →</a>

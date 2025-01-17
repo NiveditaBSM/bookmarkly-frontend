@@ -1,5 +1,6 @@
 import axios from 'axios'
-const baseUrl = '/api/blogs'
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const baseUrl = `${backendUrl}/api/bookmarks`
 
 let token
 
@@ -7,13 +8,19 @@ const setToken = (userToken) => {
   token = `Bearer ${userToken}`
 }
 
-const getAll = () => {
-  const request = axios.get(baseUrl)
-  return request.then(response => response.data)
+const get = async () => {
+  const config = {
+    headers: {
+      Authorization: token
+    }
+  }
+
+  const response = await axios.get(baseUrl, config)
+  return response.data
 }
 
-const create = async ({ title, author, url }) => {
-  console.log('newBlog', { title, author, url })
+const add = async ({ title, author, url, summary, tags }) => {
+  console.log('newBlog', { title, author, url, summary, tags })
 
   const config = {
     headers: {
@@ -22,7 +29,7 @@ const create = async ({ title, author, url }) => {
   }
   console.log('config: ', config)
 
-  const response = await axios.post(baseUrl, { title, author, url }, config)
+  const response = await axios.post(baseUrl, { title, author, url, summary, tags }, config)
   return response.data
 }
 
@@ -48,4 +55,4 @@ const remove = async (id) => {
   return response.data
 }
 
-export default { getAll, setToken, create, update, remove }
+export default { setToken, get, add, update, remove }
