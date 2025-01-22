@@ -3,7 +3,9 @@ import { useEffect } from 'react'
 import LoginForm from './components/pages/LoginForm'
 import RegisterForm from './components/pages/RegisterForm'
 import BlogApp from './components/pages/BlogApp'
+import LandingPage from './components/pages/LandingPage'
 import './index.css'
+
 
 const App = () => {
 
@@ -43,6 +45,7 @@ const App = () => {
     <>
       <Routes>
         <Route path='/' element={<BlogApp />} />
+        <Route path='/home' element={<LandingPage />} />
         <Route path='/register' element={<RegisterForm />} />
         <Route path='/login' element={<LoginForm />} />
         <Route path='/verification-success' element={<VerificationSuccess />} />
