@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import bookmarkService from '../services/bookmarks';
+import bookmarkService from '../../services/bookmarks';
 
 export const fetchBookmarks = createAsyncThunk('bookmarks/fetchBookmarks', async () => {
     const response = await bookmarkService.get();

@@ -53,9 +53,10 @@ Follow these steps to set up the project locally:
 ### **Installation**
 
 1. Clone the repository:
+   (using ssh way)
 
    ```bash
-   git clone <repository_url>
+   git clone git@github.com:NiveditaBSM/bookmarkly-frontend.git
    ```
 
 2. Navigate to the project directory:
@@ -65,10 +66,17 @@ Follow these steps to set up the project locally:
    ```
 
 3. Install dependencies:
+
    ```bash
    npm install
    # or
    yarn install
+   ```
+
+4. Add environment variables
+   create a .env file with following environment variables
+   ```bash
+   VITE_BACKEND_URL=<link_to_backend>
    ```
 
 ### **Run the Application Locally**
@@ -86,23 +94,25 @@ Follow these steps to set up the project locally:
    http://localhost:5173
    ```
 
-<!-- ## Folder Structure
+## Folder Structure
+
+The basic folder structure looks as follows:
 
 ```
 bookmarkly-frontend/
 ├── public/              # Static assets
 ├── src/
 │   ├── components/      # Reusable React components
+│   ├── hooks/           # Reusable custom hooks
 │   ├── redux/           # Redux slices and store setup
-│   ├── styles/          # Global stylesheets
-│   ├── utils/           # Utility functions
-│   └── App.js           # Main application component
+│   ├── services/        # Services/utility functions to call the the backend APIs
+│   ├── App.jsx          # Entry point of the react application
+│   ├── index.css        # Global styling and entry point for tailwind css styling
+│   └── main.jsx         # Main application component
 ├── .gitignore
 ├── package.json         # Project dependencies and scripts
 └── README.md            # Project documentation
 ```
-
---- -->
 
 ## Live Application
 
