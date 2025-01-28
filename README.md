@@ -70,6 +70,11 @@ Follow these steps to set up the project locally:
    # or
    yarn install
    ```
+4. Add environment variables
+   create a .env file with following environment variables
+   ```bash
+   VITE_BACKEND_URL=<link_to_backend>
+   ```
 
 ### **Run the Application Locally**
 
