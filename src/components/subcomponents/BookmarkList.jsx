@@ -4,7 +4,7 @@ import Divider from '../utility/Divider';
 import BookmarkCards from './BookmarkCards';
 import SearchBar from '../utility/SearchBar';
 import Dropdown from '../utility/Dropdown';
-import { fetchBookmarks } from '../../features/bookmarkSlice';
+import { fetchBookmarks } from '../../redux/features/bookmarkSlice';
 
 
 const BookmarkList = () => {

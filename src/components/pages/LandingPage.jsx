@@ -7,9 +7,6 @@ import Footer from '../subcomponents/landing/Footer';
 const LandingPage = () => {
     return (
         <div className="bg-gray-50 text-gray-800">
-            {/* <div className='h-20 w-20'>
-                <img src='./BookmarklyLogo.svg'></img>
-            </div> */}
             <Header />
             <Features />
             <CallToAction />

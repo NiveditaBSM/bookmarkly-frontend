@@ -1,9 +1,13 @@
-import { Routes, Route, useNavigate } from 'react-router-dom'
+import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import LoginForm from './components/pages/LoginForm'
 import RegisterForm from './components/pages/RegisterForm'
 import BlogApp from './components/pages/BlogApp'
 import LandingPage from './components/pages/LandingPage'
+import UserLayout from './components/shared/UserLayout'
+import Login from './components/pages/Login'
+import Register from './components/pages/Register'
+import PasswordReset from './components/pages/PasswordReset'
 import './index.css'
 
 
@@ -46,6 +50,12 @@ const App = () => {
       <Routes>
         <Route path='/' element={<BlogApp />} />
         <Route path='/home' element={<LandingPage />} />
+        <Route path='/user' element={<UserLayout />}>
+          <Route path='/user/login' element={<Login />} />
+          <Route path='/user/register' element={<Register />} />
+          <Route path='/user/passwordreset' element={<PasswordReset />} />
+          <Route index element={<Navigate to='/user/login' replace />} />
+        </Route>
         <Route path='/register' element={<RegisterForm />} />
         <Route path='/login' element={<LoginForm />} />
         <Route path='/verification-success' element={<VerificationSuccess />} />

@@ -5,7 +5,7 @@ import Header from '../subcomponents/Header'
 import AddBookmarkForm from '../subcomponents/AddBookmarkForm'
 import BookmarkList from '../subcomponents/BookmarkList'
 import bookmarkService from '../../services/bookmarks'
-import { resetBookmarks } from '../../features/bookmarkSlice';
+import { resetBookmarks } from '../../redux/features/bookmarkSlice';
 import '../../index.css'
 
 

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addBookmark } from '../../features/bookmarkSlice';
+import { addBookmark } from '../../redux/features/bookmarkSlice';
 import { FiCheck } from 'react-icons/fi';
 
 const AddBookmarkForm = () => {

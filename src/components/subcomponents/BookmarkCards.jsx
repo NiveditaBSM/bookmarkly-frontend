@@ -1,6 +1,6 @@
 import { FaTrash } from 'react-icons/fa'
 import { useDispatch } from 'react-redux';
-import { deleteBookmark } from '../../features/bookmarkSlice';
+import { deleteBookmark } from '../../redux/features/bookmarkSlice';
 
 const BookmarkCards = ({ bookmarks }) => {
     console.log(bookmarks)

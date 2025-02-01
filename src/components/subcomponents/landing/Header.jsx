@@ -1,10 +1,18 @@
+import { useNavigate } from "react-router-dom";
+
 const Header = () => {
+    const navigate = useNavigate();
 
     const handleScrollToFeatures = () => {
         const featuresSection = document.getElementById("features");
         if (featuresSection) {
             featuresSection.scrollIntoView({ behavior: "smooth" });
         }
+    };
+
+    const handleNavigateToRegister = () => {
+        console.log("In the navigate to register function");
+        navigate("/user/login");
     };
 
     return (
@@ -31,12 +39,18 @@ const Header = () => {
                         >
                             Learn More
                         </button>
-                        <a
+                        <button
+                            onClick={handleNavigateToRegister}
+                            className="ml-4 px-6 py-3  bg-indigo-700 text-white font-semibold rounded-lg shadow hover:bg-indigo-800"
+                        >
+                            Get Started
+                        </button>
+                        {/* <a
                             href="#"
                             className="ml-4 px-6 py-4 bg-indigo-700 text-white font-semibold rounded-lg shadow hover:bg-indigo-800"
                         >
                             Get Started
-                        </a>
+                        </a> */}
                     </div>
                     {/* <div className="flex justify-center lg:justify-start" >
                         <a href="#features" className="px-6 py-3 bg-white text-indigo-600 font-semibold rounded-lg shadow hover:bg-gray-100 transition-all duration-200">Learn More</a>
